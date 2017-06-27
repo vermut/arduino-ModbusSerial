@@ -42,8 +42,8 @@ class ModbusSerial : public Modbus {
         #endif
         void task();
         bool receive(byte* frame);
-        bool sendPDU(byte* pduframe);
-        bool send(byte* frame);
+        void sendPDU(byte* pduframe);
+        void send(byte* frame);
 };
 
 /* Table of CRC values for high�order byte */

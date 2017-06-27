@@ -139,7 +139,7 @@ bool ModbusSerial::receive(byte* frame) {
     return true;
 }
 
-bool ModbusSerial::send(byte* frame) {
+void ModbusSerial::send(byte* frame) {
     byte i;
 
     if (this->_txPin >= 0) {
@@ -159,7 +159,7 @@ bool ModbusSerial::send(byte* frame) {
     }
 }
 
-bool ModbusSerial::sendPDU(byte* pduframe) {
+void ModbusSerial::sendPDU(byte* pduframe) {
     if (this->_txPin >= 0) {
         digitalWrite(this->_txPin, HIGH);
         delay(1);
