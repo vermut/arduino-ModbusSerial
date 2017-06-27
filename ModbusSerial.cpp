@@ -17,10 +17,19 @@ byte ModbusSerial::getSlaveId() {
     return _slaveId;
 }
 
+#ifndef _VARIANT_ARDUINO_DUE_X_
 bool ModbusSerial::config(HardwareSerial* port, long baud, u_int format, int txPin) {
+#else
+bool ModbusSerial::config(HardwareSerial* port, long baud, int txPin) {
+#endif
     this->_port = port;
     this->_txPin = txPin;
+
+#ifndef _VARIANT_ARDUINO_DUE_X_
     (*port).begin(baud, format);
+#else
+    (*port).begin(baud);
+#endif
 
     delay(2000);
 

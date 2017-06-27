@@ -30,7 +30,11 @@ class ModbusSerial : public Modbus {
         ModbusSerial();
         bool setSlaveId(byte slaveId);
         byte getSlaveId();
+        #ifndef _VARIANT_ARDUINO_DUE_X_
         bool config(HardwareSerial* port, long baud, u_int format, int txPin=-1);
+        #else
+        bool config(HardwareSerial* port, long baud, int txPin=-1);
+        #endif
         #ifdef USE_SOFTWARE_SERIAL
         bool config(SoftwareSerial* port, long baud, int txPin=-1);
         #endif
