@@ -1,6 +1,6 @@
 /*
     ModbusSerial.h - Header for ModbusSerial Library
-    Copyright (C) 2014 André Sarmento Barbosa
+    Copyright (C) 2014 Andrï¿½ Sarmento Barbosa
 */
 #include <Arduino.h>
 #include <Modbus.h>
@@ -8,10 +8,12 @@
 #ifndef MODBUSSERIAL_H
 #define MODBUSSERIAL_H
 
-//#define USE_SOFTWARE_SERIAL
-
 #ifdef USE_SOFTWARE_SERIAL
 #include <SoftwareSerial.h>
+#endif
+
+#ifdef USE_ALT_SOFT_SERIAL
+#include <AltSoftSerial.h>
 #endif
 
 class ModbusSerial : public Modbus {
@@ -32,6 +34,9 @@ class ModbusSerial : public Modbus {
         #ifdef USE_SOFTWARE_SERIAL
         bool config(SoftwareSerial* port, long baud, int txPin=-1);
         #endif
+        #ifdef USE_ALT_SOFT_SERIAL
+        bool config(AltSoftSerial* port, long baud, int txPin=-1);
+        #endif
         #ifdef __AVR_ATmega32U4__
         bool config(Serial_* port, long baud, u_int format, int txPin=-1);
         #endif
@@ -41,7 +46,7 @@ class ModbusSerial : public Modbus {
         bool send(byte* frame);
 };
 
-/* Table of CRC values for high–order byte */
+/* Table of CRC values for highï¿½order byte */
 const byte _auchCRCHi[] = {
     0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81,
 	0x40, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81, 0x40, 0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0,
@@ -62,7 +67,7 @@ const byte _auchCRCHi[] = {
 	0x00, 0xC1, 0x81, 0x40, 0x01, 0xC0, 0x80, 0x41, 0x01, 0xC0, 0x80, 0x41, 0x00, 0xC1, 0x81,
 	0x40};
 
-/* Table of CRC values for low–order byte */
+/* Table of CRC values for lowï¿½order byte */
 const byte _auchCRCLo[] = {
     0x00, 0xC0, 0xC1, 0x01, 0xC3, 0x03, 0x02, 0xC2, 0xC6, 0x06, 0x07, 0xC7, 0x05, 0xC5, 0xC4,
 	0x04, 0xCC, 0x0C, 0x0D, 0xCD, 0x0F, 0xCF, 0xCE, 0x0E, 0x0A, 0xCA, 0xCB, 0x0B, 0xC9, 0x09,

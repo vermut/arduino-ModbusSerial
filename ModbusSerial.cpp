@@ -40,6 +40,32 @@ bool ModbusSerial::config(HardwareSerial* port, long baud, u_int format, int txP
     return true;
 }
 
+#ifdef USE_ALT_SOFT_SERIAL
+bool ModbusSerial::config(AltSoftSerial* port, long baud, int txPin) {
+    this->_port = port;
+    this->_txPin = txPin;
+    (*port).begin(baud);
+
+    delay(2000);
+
+    if (txPin >= 0) {
+        pinMode(txPin, OUTPUT);
+        digitalWrite(txPin, LOW);
+        Serial.println(txPin);
+    }
+
+    if (baud > 19200) {
+        _t15 = 750;
+        _t35 = 1750;
+    } else {
+        _t15 = 15000000/baud; // 1T * 1.5 = T1.5
+        _t35 = 35000000/baud; // 1T * 3.5 = T3.5
+    }
+
+    return true;
+}
+#endif
+
 #ifdef USE_SOFTWARE_SERIAL
 bool ModbusSerial::config(SoftwareSerial* port, long baud, int txPin) {
     this->_port = port;
@@ -202,8 +228,3 @@ word ModbusSerial::calcCrc(byte address, byte* pduFrame, byte pduLen) {
 
     return (CRCHi << 8) | CRCLo;
 }
-
-
-
-
-
