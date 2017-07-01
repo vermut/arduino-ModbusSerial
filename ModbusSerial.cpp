@@ -60,7 +60,6 @@ bool ModbusSerial::config(AltSoftSerial* port, long baud, int txPin) {
     if (txPin >= 0) {
         pinMode(txPin, OUTPUT);
         digitalWrite(txPin, LOW);
-        Serial.println(txPin);
     }
 
     if (baud > 19200) {
